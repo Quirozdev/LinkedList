@@ -8,7 +8,6 @@ class Node {
 class LinkedList {
   constructor() {
     this.head = null;
-    this.tail = null;
   }
 
   forEachNode(callback) {
@@ -22,10 +21,8 @@ class LinkedList {
   append(value) {
     if (this.isEmpty()) {
       this.head = new Node(value);
-      this.tail = this.head;
     } else {
       this.tail.nextNode = new Node(value);
-      this.tail = this.tail.nextNode;
     }
   }
 
@@ -59,6 +56,12 @@ class LinkedList {
     }
   }
 
+  get tail() {
+    return this.findByCallback((node) => {
+      return node.nextNode === null;
+    }).node;
+  }
+
   at(index) {
     return this.findByCallback((node, nodeIndex) => {
       return index === nodeIndex;
@@ -82,7 +85,6 @@ class LinkedList {
       return node.nextNode === this.tail;
     }).node;
     previousNodeToTail.nextNode = null;
-    this.tail = previousNodeToTail;
   }
 
   contains(value) {
@@ -172,3 +174,6 @@ linkedList.insertAt(0, 4);
 console.log(linkedList.toString());
 linkedList.insertAt(31, 0);
 console.log(linkedList.toString());
+linkedList.pop();
+console.log(linkedList.toString());
+console.log(linkedList.tail);
